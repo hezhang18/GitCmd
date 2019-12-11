@@ -81,8 +81,24 @@ $ git commit -m "add 3 files."
 
 * git push -u origin master
 > 把本地库的内容推送到远程，⽤ git push 命令，实际上是把当前分支 master 推送到远程。
+
 > 由于远程库是空的，第一次推送 master 分⽀时，加上了 -u 参数，这样 Git 不但会把本地的 master 分支内容推送到远程新的master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。
+
 > 添加后，远程库的名字就是 origin，这是 Git 默认的叫法，也可以改成别的，但是 origin 这个名字一看就知道是远程库。
+
+> 注意：
+> 
+> 一般由于先有本地仓库，然后创建远程仓库并用 git remote add 命令进行关联。此时，远程仓库存在 README.md，LICENSE，.gitignore文件，而本地仓库不存在，此时使用 git push 提交命令则会报错，错误内容如下所示：
+>> 提示：更新被拒绝，因为远程仓库包含您本地尚不存在的提交。
+>> 
+>> 提示：一个仓库已向该引用进行了推送。再次推送前，您可能需要先整合远程变更。
+>> 
+> 解决方案：
+> 
+>> 使用命令：git pull origin master --allow-unrelated-histories
+>> 
+>> 这样对本地仓库和远程仓库进行合并冲突后，就可以正常使用 git push命令了。
+>> 
 
 * git push origin master
 > 把本地 master 分支的最新修改推送至 GitHub（只在第一次推送时加 -u 参数）。
