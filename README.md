@@ -20,6 +20,18 @@ $ git add file3.txt
 $ git commit -m "add 3 files."
 ```
 
+> 注意：
+> 
+> Mac每个目录都会有个文件叫 .DS_Store，它是用于存储当前文件夹的一些 Meta 信息。所以每次查看 Git 目录的状态，如果没有add这个 .DS_Store 文件，会有提示，像苍蝇一样特别烦。
+> 
+> 解决方案：
+> 
+> vi ~/.gitignore，输入 .DS_Store，换行再输入 */.DS_Store。这一步是忽略当前目录及其子目录的 .DS_Store。
+> 
+> vi ~/.gitignore_global，输入 .DS_Store，换行再输入 */.DS_Store。这一步是添加全局忽略文件。
+> 
+> vi ~/.gitconfig，输入 [core]，换行再输入 excludesfile = ~/.gitignore_global。这一步是在配置中引入全局忽略文件。
+
 ### 2. 时光穿梭机
 
 * git status
@@ -113,6 +125,22 @@ $ git commit -m "add 3 files."
 
 ### 10. 分支管理
 
+* git checkout -b dev
+> git checkout 命令加上 -b 参数表示创建并切换，相当于以下两条命令:
+>> git branch dev，创建 dev 分支。
+>> 
+>> git checkout dev，切换至 dev 分支。
+
+* git branch 
+> 查看当前分⽀。
+
+* git merge dev
+> 合并指定分支到当前分⽀。
+
+* git branch -d dev
+> 删除 dev 分⽀。
+
+### 11. 解决冲突
 
 
 
@@ -128,12 +156,17 @@ $ git commit -m "add 3 files."
 
 
 
-难点：推送到远程仓库时总是默认使用遗弃账户hezhang94,搜索可以全局重新设置账户名称和邮箱，但是依然没有解决（账号都显示为新设置的账户），但仍使用以前的推送，搜索可以清除账号的缓存，重新安装GitHub并登录，依然无法解决；最后发现是https和ssh之间的问题，应使用后者进行推送（git remote add origin git@github.com:hezhang18/learngit.git；git push -u origin master）。
 
-mkdir fileFolder
-cd fileFolder
-touch fileName.xx
-vi fileName.xx; i; esc -> :wq;
-cat fileName.xx
-rm -rf fileFolder
-rm fileName.xx
+
+
+***
+
+> 备注：推送到远程仓库时总是默认使用遗弃账户hezhang94,搜索可以全局重新设置账户名称和邮箱，但是依然没有解决（账号都显示为新设置的账户），但仍使用以前的推送，搜索可以清除账号的缓存，重新安装GitHub并登录，依然无法解决；最后发现是https和ssh之间的问题，应使用后者进行推送（git remote add origin git@github.com:hezhang18/learngit.git；git push -u origin master）。
+
+* mkdir fileFolder
+* cd fileFolder
+* touch fileName.xx
+* vi fileName.xx; i; esc -> :wq;
+* cat fileName.xx
+* rm -rf fileFolder
+* rm fileName.xx
