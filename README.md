@@ -220,16 +220,16 @@ $ git commit -m "add 3 files."
 * git tag [tag name]
 >打一个新标签，默认标签打在最新提交的 commit 上。如，git tag v1.0。
 
-* git tag [tag name] commit-id
+* git tag [tag name] [commit id]
 > 为某一个历史提交的 commit id 打标签。
 
-* git tag -a [tag name] -m "descriptive text" commit-id
+* git tag -a [tag name] -m "descriptive text" [commit id]
 > -a 指定标签名，-m 指定说明⽂字。
 
 * git show [tag name]
 > 查看某个标签的说明文字。
 
-* git tag -s [tag name] -m "descriptive text" commit-id
+* git tag -s [tag name] -m "descriptive text" [commit id]
 > -s 私钥签名一个标签，签名采用 PGP 签名，用PGP签名的标签是不可伪造的，因为可以验证 PGP 签名。使用前必须安装 gpg(GnuPG)。
 
 * git tag -d [tag name]
