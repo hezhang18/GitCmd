@@ -8,7 +8,7 @@
 * git add fileName.xx
 > 把文件添加到版本库。实际上就是把文件修改添加到版本库的暂存区。
 
-* git commit -m "xxx"
+* git commit -m "[description]"
 > 把文件提交到版本库，-m 后面输入的是本次提交的说明。实际上就是把暂存区的所有内容提交到当前分⽀。
 
 > 因为 commit 可以一次提交很多文件修改，所以你可以多次 add 不同的文件，⽐如:
@@ -80,7 +80,7 @@ $ git commit -m "add 3 files."
 
 * git rm fileName.xx
 
-* git commit -m "xxx"
+* git commit -m "description"
 
 > 从版本库中删除该文件，用命令 git rm 删掉，并且 commit 。
 
@@ -115,6 +115,12 @@ $ git commit -m "add 3 files."
 * git push origin master
 > 把本地 master 分支的最新修改推送至 GitHub（只在第一次推送时加 -u 参数）。
 
+* git remote
+> 查看远程库的信息。
+
+* git remote -v
+> 查看远程库更详细的信息。
+
 * git remote rm origin
 > 删除远程库。
 
@@ -125,7 +131,7 @@ $ git commit -m "add 3 files."
 
 ### 10. 分支管理
 
-* git checkout -b dev
+* git checkout -b [branch name]
 > git checkout 命令加上 -b 参数表示创建并切换，相当于以下两条命令:
 >> git branch dev，创建 dev 分支。
 >> 
@@ -134,10 +140,10 @@ $ git commit -m "add 3 files."
 * git branch 
 > 查看当前分⽀。
 
-* git merge dev
+* git merge [branch name]
 > 合并指定分支到当前分⽀。
 
-* git branch -d dev
+* git branch -d [branch name]
 > 删除 dev 分⽀。
 
 ### 11. 解决冲突
@@ -155,7 +161,7 @@ $ git commit -m "add 3 files."
 
 ### 12. 分支管理策略
 
-* git merge --no-ff -m "merge with no-ff" dev
+* git merge --no-ff -m "[description]" [branch name]
 > 因为这种合并方式要创建一个新的 commit，所以加上 -m 参数，把 commit 描述写进去。
 
 > 通常，合并分支时，如果可能，Git会用“Fast forward”模式，但这种模式下，删除分支后，会丢掉分支信息。如果要强制禁用“Fast forward”模式，Git 就会在 merge 时⽣成⼀个新的 commit，这样，从分支历史上就可以看出分⽀信息。
@@ -190,24 +196,54 @@ $ git commit -m "add 3 files."
 
 > 每添加⼀个新功能，最好新建一个 feature 分支，在上面开发，完成后，合并，最后，删除该 feature 分支。
 
-* git branch -D name
+* git branch -D [branch name]
 > 强行删一个没有被合并过的分支。
 
 ### 15. 多人协作
 
+* git push origin [branch name]
+> 从本地推送分支，如果推送失败，先用 git pull 抓取远程的新提交，如果有冲突，要先处理冲突。
 
+* git checkout -b [branch name] origin/[branch name]
+> 在本地创建和远程分支对应的分支，本地和远程分支的名称最好一致。
 
+* git branch --set-upstream [branch name] origin/[branch name]
+> 建立本地分支和远程分支的关联。
 
+### 16. 标签管理
 
+> 发布一个版本时，我们通常先在版本库中打⼀个标签，这样，就唯⼀确定了打标签时刻的版本。将来⽆论什么时候，取某个标签的版本，就是把那个打标签时刻的历史版本取出来。创建标签前，首先切换到需要打标签的分支上:
 
+* git tag
+> 查看所有标签。
 
+* git tag [tag name]
+>打一个新标签，默认标签打在最新提交的 commit 上。如，git tag v1.0。
 
+* git tag [tag name] commit-id
+> 为某一个历史提交的 commit id 打标签。
 
+* git tag -a [tag name] -m "descriptive text" commit-id
+> -a 指定标签名，-m 指定说明⽂字。
 
+* git show [tag name]
+> 查看某个标签的说明文字。
 
+* git tag -s [tag name] -m "descriptive text" commit-id
+> -s 私钥签名一个标签，签名采用 PGP 签名，用PGP签名的标签是不可伪造的，因为可以验证 PGP 签名。使用前必须安装 gpg(GnuPG)。
 
+* git tag -d [tag name]
+> 删除标签。
 
+* git push origin [tag name]
+> 推送某个标签到远程。
 
+* git push origin --tags
+> 一次性推送全部尚未推送到远程的本地标签。
+
+> 删除远程标签：
+> 1. git tag -d [tag name] 先删除一个本地标签;
+> 2. git push origin :refs/tags/[tag name] 再删除一个远程标签。
 
 
 
