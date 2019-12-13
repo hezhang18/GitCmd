@@ -142,6 +142,61 @@ $ git commit -m "add 3 files."
 
 ### 11. 解决冲突
 
+> 当 Git 无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。用 git log --graph 命令可以看到分支合并图。
+
+* git log --graph
+> 查看分支合并图。
+
+* git log --graph --pretty=oneline
+> 简化日志信息，将每个提交放在一行显示，查看的提交数很大时非常有用。
+
+* git log --graph --pretty=oneline --abbrev-commit
+> 简化头部信息（commit id）。
+
+### 12. 分支管理策略
+
+* git merge --no-ff -m "merge with no-ff" dev
+> 因为这种合并方式要创建一个新的 commit，所以加上 -m 参数，把 commit 描述写进去。
+
+> 通常，合并分支时，如果可能，Git会用“Fast forward”模式，但这种模式下，删除分支后，会丢掉分支信息。如果要强制禁用“Fast forward”模式，Git 就会在 merge 时⽣成⼀个新的 commit，这样，从分支历史上就可以看出分⽀信息。
+> 
+> ![两种合并方式对比](./GitImg/merge.png)
+
+> 分支管理策略：在实际开发中，首先，master 分支应该是非常稳定的，也就是仅⽤来发布新版本，平时不能在上面干活；干活都在 dev 分支上，也就是说，dev分支是不稳定的，到某个时候，比如 1.0 版本发布时，再把 dev 分支合并到 master 上进行版本发布；平时工作时每个人都在 dev 分支上干活，每个人都有自己的分支，时不时地往 dev 分支上合并就可以了。
+
+### 13. Bug分支
+
+> 当你接到一个修复 bug 的任务时，很自然地，你想创建一个分支来 修复它，但是，当前正在 dev 上进行的工作只进⾏到⼀半还没法提交，预计完成还需1天时间。而该 bug 必须在两个小时内修复。这时就会用到 Git 提供的 stash 功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作。
+
+* git stash
+> 把当前工作现场（stash）保存起来，此时用 git status 查看工作区，就是干净的，可以放心地创建分支来修复 bug。
+
+* git stash list
+> 查看被保存的工作现场（stash）的列表。
+
+* git stash apply
+> 恢复 stash，但是恢复后，stash 内容并不删除。此时 git stash list 仍可查看 stash 内容。
+
+* git stash apply stash@{0}
+> 恢复指定 stash。
+
+* git stash drop
+> 删除 stash 的内容。
+
+* git stash pop
+> 恢复工作现场（stash）的同时删除 stash 内容。此时 git stash list 不可查看 stash 内容。
+
+### 14. feature 分支
+
+> 每添加⼀个新功能，最好新建一个 feature 分支，在上面开发，完成后，合并，最后，删除该 feature 分支。
+
+* git branch -D name
+> 强行删一个没有被合并过的分支。
+
+### 15. 多人协作
+
+
+
 
 
 
@@ -160,13 +215,18 @@ $ git commit -m "add 3 files."
 
 
 ***
+### 备忘
 
-> 备注：推送到远程仓库时总是默认使用遗弃账户hezhang94,搜索可以全局重新设置账户名称和邮箱，但是依然没有解决（账号都显示为新设置的账户），但仍使用以前的推送，搜索可以清除账号的缓存，重新安装GitHub并登录，依然无法解决；最后发现是https和ssh之间的问题，应使用后者进行推送（git remote add origin git@github.com:hezhang18/learngit.git；git push -u origin master）。
+##### 1. 常用 LINUX 命令
 
-* mkdir fileFolder
-* cd fileFolder
-* touch fileName.xx
-* vi fileName.xx; i; esc -> :wq;
-* cat fileName.xx
-* rm -rf fileFolder
-* rm fileName.xx
+> * mkdir fileFolder
+> * cd fileFolder
+> * touch fileName.xx
+> * vi fileName.xx; i; esc -> :wq;
+> * cat fileName.xx
+> * rm -rf fileFolder
+> * rm fileName.xx
+
+##### 2. 学习过程遇到的问题
+
+> 推送到远程仓库时总是默认使用遗弃账户 hezhang94。搜索解决方案，可以通过在全局重新设置账户名称和邮箱进行解决，但是依然没有效果（账号都显示为重新设置后的新账户），但 push 时仍使用旧账户进行推送，导致失败；继续尝试清除账号的缓存，重新安装 GitHub 并登录，依然无法解决；最后发现是 https 和 ssh 之间的问题，应使用后者进行推送（git remote add origin git@github.com:hezhang18/learngit.git；git push -u origin master）。
